@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["./src/**.algo.ts", "./lib/**/*", "./scripts/**/*"],
+  "compilerOptions": {
+    "outDir": "./lib/cjs",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "declaration": false
+  }
+}

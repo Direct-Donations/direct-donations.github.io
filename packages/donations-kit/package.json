@@ -1,0 +1,64 @@
+{
+  "name": "@direct-donations/kit",
+  "version": "0.1.0",
+  "description": "Kit for making Donations",
+  "license": "MIT",
+  "author": "Michael J Feher",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.js"
+    },
+    "./application.json": {
+      "import": "./lib/Donate.json",
+      "require": "./lib/Donate.json",
+      "default": "./lib/Donate.json"
+    },
+    "./abi.json": {
+      "import": "./lib/Donate.abi.json",
+      "require": "./lib/Donate.abi.json",
+      "default": "./lib/Donate.abi.json"
+    }
+  },
+  "main": "lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "concurrently \"npm:build:*\"",
+    "build:cjs": "tsc -p tsconfig.cjs.json && cp ./lib/cjs/index.js ./lib/index.cjs && rm -rf ./lib/cjs",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "deploy": "ts-node ./scripts/deploy.ts",
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:client": "wait-on ./lib/Donate.json && nodemon --exec \"npm run gen:client\" --watch ./lib/Donate.json",
+    "dev:teal": "nodemon --exec \"npm run gen:teal\" --watch ./src/Donate.algo.ts",
+    "dev:build": "wait-on ./src/index.ts && nodemon --exec \"npm run build\" --watch ./src/index.ts",
+    "gen": "npm run gen:teal && npm run gen:client",
+    "gen:client": "algokitgen generate client  --output ./src/index.ts -a ./lib/Donate.json",
+    "gen:teal": "mkdirp ./lib && tealscript ./src/Donate.algo.ts ./lib && rm ./lib/Donate.src_map.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@algorandfoundation/algokit-client-generator": "^2.2.4-beta.1",
+    "@algorandfoundation/tealscript": "^0.38.0",
+    "@swc/core": "^1.3.78",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "concurrently": "^8.2.1",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "mkdirp": "^3.0.1",
+    "nodemon": "^3.0.1",
+    "wait-on": "^7.0.1"
+  },
+  "peerDependencies": {
+    "@algorandfoundation/algokit-utils": "^2.3.2",
+    "algosdk": "^2.5.0"
+  }
+}
