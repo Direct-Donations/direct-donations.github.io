@@ -123,28 +123,27 @@ class Donate extends Contract {
    * If the sender and receiver are opted into the application, then the donation
    * is counted towards their accounts.
    */
-  donate(): void {
+  donate(txn: PayTxn): void {
     // ITXN Check
-    assert(this.txnGroup[0].typeEnum === TransactionType.Payment);
-    assert(this.txnGroup.length === 2);
+    //assert(txn.typeEnum === TransactionType.Payment);
+    // assert(this.txnGroup.length === 2);
     assert(this.txnGroup[0].receiver !== this.txnGroup[0].sender);
-
-    // Opt In Check
+    //
+    // // Opt In Check
     assert(
       this.txnGroup[0].sender.isOptedInToApp(globals.currentApplicationID),
     );
     assert(
       this.txnGroup[0].receiver.isOptedInToApp(globals.currentApplicationID),
     );
-
-    // Update Donations State
+    //
+    // // Update Donations State
     this._add(
       this.txnGroup[0].sender,
       this.txnGroup[0].receiver,
       this.txnGroup[0].amount,
     );
-
-    log("donation received");
+    // log("donation received");
   }
   clearState(): void {
     log("user has quit");

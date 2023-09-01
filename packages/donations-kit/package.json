@@ -32,7 +32,7 @@
     "build": "concurrently \"npm:build:*\"",
     "build:cjs": "tsc -p tsconfig.cjs.json && cp ./lib/cjs/index.js ./lib/index.cjs && rm -rf ./lib/cjs",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "deploy": "ts-node ./scripts/deploy.ts",
+    "deploy": "tsx ./scripts/deploy.ts",
     "dev": "concurrently \"npm:dev:*\"",
     "dev:client": "wait-on ./lib/Donate.json && nodemon --exec \"npm run gen:client\" --watch ./lib/Donate.json",
     "dev:teal": "nodemon --exec \"npm run gen:teal\" --watch ./src/Donate.algo.ts",
